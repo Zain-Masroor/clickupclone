@@ -1,9 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -11,6 +5,31 @@ generator client {
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
+}
+
+enum Role {
+  ADMIN
+  PROJECT_MANAGER
+  TEAM_MEMBER
+  CLIENT
+}
+
+enum PlanType {
+  FREE
+  PRO
+  ENTERPRISE
+}
+
+enum SubscriptionStatus {
+  ACTIVE
+  CANCELLED
+}
+
+enum ActionType {
+  VIEWED
+  UPDATED
+  DELETED
+  CREATED
 }
 
 model User {
@@ -37,19 +56,17 @@ model Favorite {
   userId    String
   taskId    String? // Optional: Either task or project will be favorited
   projectId String? // Optional
-
   createdAt DateTime @default(now())
 }
 
 model History {
-  id        String  @id @default(uuid())
-  user      User    @relation(fields: [userId], references: [id])
+  id        String     @id @default(uuid())
+  user      User       @relation(fields: [userId], references: [id])
   userId    String
-  taskId    String? // Optional
-  projectId String? // Optional
-
-  action    String // e.g., "VIEWED", "UPDATED"
-  createdAt DateTime @default(now())
+  taskId    String?    // Optional
+  projectId String?    // Optional
+  action    ActionType // Strongly typed actions
+  createdAt DateTime   @default(now())
 }
 
 model Project {
@@ -78,12 +95,12 @@ model Task {
 }
 
 model Subscription {
-  id        String    @id @default(uuid())
+  id        String            @id @default(uuid())
   users     User[]
-  plan      String   @default("FREE") // FREE, PRO, ENTERPRISE
-  startDate DateTime  @default(now())
+  plan      PlanType          @default(FREE)
+  startDate DateTime          @default(now())
   endDate   DateTime?
-  status    String   @default("ACTIVE") // ACTIVE, CANCELLED
+  status    SubscriptionStatus @default(ACTIVE)
 }
 
 model Comment {
@@ -103,17 +120,4 @@ model Notification {
   userId    String
   seen      Boolean  @default(false)
   createdAt DateTime @default(now())
-}
-
-enum Role {
-  ADMIN
-  PROJECT_MANAGER
-  TEAM_MEMBER
-  CLIENT
-}
-
-enum PlanType {
-  FREE
-  PRO
-  ENTERPRISE
 }

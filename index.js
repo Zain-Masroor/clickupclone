@@ -46,6 +46,11 @@ app.use('/api/recommendations', recommendationRoutes);
 app.use('/api/payments', paymentRoutes);
 
 
+app.get('/', (req, res) => {
+  res.send('API is running...');
+});
+
+
 // Handle socket connections
 io.on('connection', (socket) => {
   console.log(`⚡ User connected: ${socket.id}`);

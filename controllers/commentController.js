@@ -1,5 +1,5 @@
 const prisma = require('../config/prisma');
-const { io } = require('../index');
+const { io } = require('../app');
 
 // Add comment to task
 exports.addComment = async (req, res) => {

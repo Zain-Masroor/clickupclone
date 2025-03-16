@@ -45,7 +45,7 @@ Create a .env file in root:
 
 
 5. Run the Server
-npm start
+>npm run dev
 
 ## API Endpoints Overview
 

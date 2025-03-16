@@ -27,11 +27,11 @@ This is a fully functional backend API for a Project Management Tool, inspired b
 > git clone https://github.com/Zain-Masroor/clickupclone.git
 
 2. Install Dependencies
-npm install
+>npm install
 
 3. Configure Environment Variables
 
-Create a .env file in root:
+>Create a .env file in root:
 
 >DATABASE_URL=postgresql://username:password@localhost:5432/mydb
 
